@@ -58,7 +58,7 @@ public class DeviceListActivity extends Activity {
         // 标题栏右边有个圈旋转
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_device_list);
-
+        setTitle("Choose LED Device");
         // Set result CANCELED in case the user backs out
         // 用于返回数据给上一个Activity
         setResult(Activity.RESULT_CANCELED);
@@ -157,7 +157,7 @@ public class DeviceListActivity extends Activity {
         setProgressBarIndeterminateVisibility(true);
         setTitle(R.string.scanning);
 
-        // Turn on sub-title for new devices
+        // Turn on sub-title for new devicesen
         findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
 
         // If we're already discovering, stop it
