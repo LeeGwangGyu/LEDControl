@@ -22,6 +22,9 @@ public class MainActivity extends FragmentActivity {
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothService mBluetoothService;
+
+    byte[] send = {(byte)0xAA,0,0,(byte)0xBB};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +92,29 @@ public class MainActivity extends FragmentActivity {
                     Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                byte[] send = {(byte)0xAA,0,0,0xB};
                 send[1] = (byte) seekBar.getProgress();
+                mBluetoothService.write(send);
+            }
+        });
+        seekBar = (SeekBar)findViewById(R.id.seekBar2);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (mBluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
+                    Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                send[2] = (byte) seekBar.getProgress();
                 mBluetoothService.write(send);
             }
         });
@@ -127,7 +151,7 @@ public class MainActivity extends FragmentActivity {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     // String readMessage = new String(readBuf, 0, msg.arg1);
-                    mBluetoothService.write(readBuf);
+                    // mBluetoothService.write(readBuf);
                     break;
             }
         }
