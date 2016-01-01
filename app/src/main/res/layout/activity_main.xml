@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/seekBar"
-        android:progress="50"
+        android:progress="100"
         android:max="100"
         android:layout_marginBottom="78dp"
         android:layout_above="@+id/seekBar2"
@@ -20,9 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:id="@+id/seekBar2"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="73dp"
         android:max="255"
-        android:progress="200"
+        android:progress="128"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -35,4 +35,13 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:background="@mipmap/ic_action_device_access_bluetooth_searching" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        android:layout_marginBottom="41dp"
+        android:background="@mipmap/led_open"
+        android:layout_above="@+id/seekBar"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

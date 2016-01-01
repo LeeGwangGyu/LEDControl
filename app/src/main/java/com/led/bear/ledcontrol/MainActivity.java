@@ -23,7 +23,7 @@ public class MainActivity extends FragmentActivity {
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothService mBluetoothService;
 
-    byte[] send = {(byte)0xAA,0,0,(byte)0xBB};
+    byte[] send = {(byte)0xAA,1,100,(byte)128,(byte)0xBB};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,8 @@ public class MainActivity extends FragmentActivity {
 
         button =(Button)findViewById(R.id.button2);
         button.setOnClickListener(button_click);
+        button =(Button)findViewById(R.id.button3);
+        button.setOnClickListener(button_click);
 
         SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -92,7 +94,7 @@ public class MainActivity extends FragmentActivity {
                     Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                send[1] = (byte) seekBar.getProgress();
+                send[2] = (byte) seekBar.getProgress();
                 mBluetoothService.write(send);
             }
         });
@@ -114,7 +116,7 @@ public class MainActivity extends FragmentActivity {
                     Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                send[2] = (byte) seekBar.getProgress();
+                send[3] = (byte) seekBar.getProgress();
                 mBluetoothService.write(send);
             }
         });
@@ -168,6 +170,21 @@ public class MainActivity extends FragmentActivity {
                     bluetooth.setClass(MainActivity.this, DeviceListActivity.class);
                     //startActivity(bluetooth);
                     startActivityForResult(bluetooth,REQUEST_CONNECT_DEVICE_SECURE);
+                    break;
+                case R.id.button3:
+                    Button button = (Button) findViewById(R.id.button3);
+                    if (mBluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
+                        Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(send[1] == 0) {
+                        button.setBackgroundResource(R.mipmap.led_open);
+                        send[1] = 1;
+                    }else {
+                        button.setBackgroundResource(R.mipmap.led_close);
+                        send[1] = 0;
+                    }
+                    mBluetoothService.write(send);
                     break;
                 default:
                     break;
