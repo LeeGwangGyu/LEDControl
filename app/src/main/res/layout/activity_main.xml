@@ -30,16 +30,16 @@
     <Button
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/button2"
+        android:id="@+id/mBluetoothChoose"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:background="@mipmap/ic_action_device_access_bluetooth_searching" />
+        android:background="@mipmap/disconnect_bluetooth" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button3"
+        android:id="@+id/mLEDStateControl"
         android:layout_marginBottom="41dp"
         android:background="@mipmap/led_open"
         android:layout_above="@+id/seekBar"

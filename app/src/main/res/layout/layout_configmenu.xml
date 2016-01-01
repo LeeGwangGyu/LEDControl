@@ -17,6 +17,6 @@
         android:layout_height="70dp"
         android:id="@+id/button"
         android:layout_gravity="bottom"
-        android:background="@mipmap/ic_action_device_access_bluetooth_searching" />
+        android:background="@mipmap/connect_bluetooth" />
 
 </LinearLayout>
