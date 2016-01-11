@@ -64,22 +64,18 @@ public class MainActivity extends FragmentActivity {
                     "Bluetooth is not available", Toast.LENGTH_LONG).show();
             MainActivity.this.finish();
         }
-        if (!mBluetoothAdapter.isEnabled()) {
-            //如果蓝牙没有打开 请求打开蓝牙
-            // 用于发送启动请求的 Intent
-            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            // 这里会启动系统的一个Activity
-            // 然后也会根据REQUEST_ENABLE_BT在OnActivityResult方法里处理
-            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-        }
+
         if (mBluetoothService == null) {
             mBluetoothService = new BluetoothService(MainActivity.this,mHandler);
         }
     }
 
     private void setup_UI() {
+
+        setSlidingMenu();
+
         Button button;
-        button =(Button)findViewById(R.id.mBluetoothChoose);
+        button =(Button)findViewById(R.id.button);
         button.setOnClickListener(button_click);
         button =(Button)findViewById(R.id.mLEDStateControl);
         button.setOnClickListener(button_click);
@@ -130,6 +126,23 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+    private void setSlidingMenu(){
+        // configure the SlidingMenu
+        // 设置左滑菜单
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        // 设置滑动的屏幕范围，该设置为全屏区域都可以滑动
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        // SlidingMenu划出时主页面显示的剩余宽度
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        // SlidingMenu滑动时的渐变程度
+        menu.setFadeDegree(0.35f);
+        //使SlidingMenu附加在Activity上
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        //为侧滑菜单设置布局
+        menu.setMenu(R.layout.layout_configmenu);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE_SECURE:
@@ -161,8 +174,6 @@ public class MainActivity extends FragmentActivity {
 
 
 
-
-
     private final  Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -171,13 +182,13 @@ public class MainActivity extends FragmentActivity {
                     Button button;
                     switch (msg.arg1) {
                         case BluetoothService.STATE_CONNECTED:
-                            button = (Button) findViewById(R.id.mBluetoothChoose);
+                            button = (Button) findViewById(R.id.mBluetoothStateShow);
                             button.setBackgroundResource(R.mipmap.connect_bluetooth);
                             break;
                         case BluetoothService.STATE_CONNECTING:
                         case BluetoothService.STATE_LISTEN:
                         case BluetoothService.STATE_NONE:
-                            button = (Button) findViewById(R.id.mBluetoothChoose);
+                            button = (Button) findViewById(R.id.mBluetoothStateShow);
                             button.setBackgroundResource(R.mipmap.disconnect_bluetooth);
                             break;
                     }
@@ -212,7 +223,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.mBluetoothChoose:
+                case R.id.button:
                     // Intent serverIntent = new Intent(MainActivity.this,DeviceListActivity.class);
                     // startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                     Intent bluetooth = new Intent();
@@ -246,25 +257,4 @@ public class MainActivity extends FragmentActivity {
 }
 
 
-/*
-        // configure the SlidingMenu
-        // 设置左滑菜单
-        SlidingMenu menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.LEFT);
-        // 设置滑动的屏幕范围，该设置为全屏区域都可以滑动
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        // 设置阴影图片
-        // menu.setShadowDrawable(R.drawable.menu_color);
-        // 设置阴影图片的宽度
-        // menu.setShadowWidthRes(R.dimen.shadow_width);
-
-        // SlidingMenu划出时主页面显示的剩余宽度
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        // SlidingMenu滑动时的渐变程度
-        menu.setFadeDegree(0.35f);
-        //使SlidingMenu附加在Activity上
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        //为侧滑菜单设置布局
-        menu.setMenu(R.layout.layout_configmenu);
-*/
 
