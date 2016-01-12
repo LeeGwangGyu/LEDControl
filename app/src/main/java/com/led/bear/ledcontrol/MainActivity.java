@@ -9,10 +9,15 @@ import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends FragmentActivity {
@@ -23,6 +28,7 @@ public class MainActivity extends FragmentActivity {
 
     private BluetoothAdapter mBluetoothAdapter = null;
     private BluetoothService mBluetoothService = null;
+    private List<String> list = new ArrayList<String>();
 
     byte[] send = {(byte)0xAA,1,100,(byte)128,(byte)0xBB};
 
@@ -74,11 +80,22 @@ public class MainActivity extends FragmentActivity {
 
         setSlidingMenu();
 
+
+        ArrayAdapter<String> modeArrayAdapter =
+                new ArrayAdapter<String>(this, R.layout.device_name);
+        Spinner spinner = (Spinner)findViewById(R.id.spinner);
+        spinner.setAdapter(modeArrayAdapter);
+        modeArrayAdapter.add("Mode 1");
+        modeArrayAdapter.add("Mode 2");
+        modeArrayAdapter.add("Mode 3");
+        modeArrayAdapter.add("Breath");
+
         Button button;
         button =(Button)findViewById(R.id.button);
         button.setOnClickListener(button_click);
         button =(Button)findViewById(R.id.mLEDStateControl);
         button.setOnClickListener(button_click);
+
 
         SeekBar seekBar = (SeekBar)findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
