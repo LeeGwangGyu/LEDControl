@@ -11,7 +11,7 @@
         android:id="@+id/seekBar"
         android:progress="100"
         android:max="100"
-        android:layout_marginBottom="78dp"
+        android:layout_marginBottom="64dp"
         android:layout_above="@+id/seekBar2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -44,4 +44,13 @@
         android:background="@mipmap/led_open"
         android:layout_above="@+id/seekBar"
         android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_above="@+id/mLEDStateControl"
+        android:layout_alignRight="@+id/mBluetoothStateShow"
+        android:layout_alignEnd="@+id/mBluetoothStateShow"
+        android:layout_toEndOf="@+id/mLEDStateControl" />
 </RelativeLayout>
