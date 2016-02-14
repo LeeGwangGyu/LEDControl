@@ -32,7 +32,21 @@ public class MainActivity extends FragmentActivity {
     private BluetoothService mBluetoothService = null;
     private List<String> list = new ArrayList<String>();
 
-    byte[] send = {(byte)0xAA,1,100,(byte)128,(byte)0xBB};
+    // frame head  0xAA
+    // frame command
+    //        query    0x00
+    //        mode 1     0x01  mode 2     0x02
+    //        mode 3     0x03  breath     0x04
+    //        set mode1  0x05  set mode2  0x06
+    //        set mode3  0x07
+    //        set breath limit1  0x08
+    //        set breath limit2  0x09
+    //        open 0x0A  close  0x0B
+    // bright  0x00 - 0x64
+    // color temperature  0x00-0xFF   middle 0x80
+    // frame tail 0xBB
+
+    byte[] send = {(byte)0xAA,0x0A,100,(byte)128,(byte)0xBB};
     private static int currentMode = 1;
 
     @Override
@@ -121,7 +135,7 @@ public class MainActivity extends FragmentActivity {
         });
 
         Button button;
-        button =(Button)findViewById(R.id.button);
+        button =(Button)findViewById(R.id.Config);
         button.setOnClickListener(button_click);
         button =(Button)findViewById(R.id.mLEDStateControl);
         button.setOnClickListener(button_click);
@@ -188,6 +202,17 @@ public class MainActivity extends FragmentActivity {
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         //为侧滑菜单设置布局
         menu.setMenu(R.layout.layout_configmenu);
+
+
+        Button button;
+        button =(Button)findViewById(R.id.Config);
+        button.setOnClickListener(button_click);
+        button =(Button)findViewById(R.id.SaveDate);
+        button.setOnClickListener(button_click);
+        button =(Button)findViewById(R.id.SetLimit1);
+        button.setOnClickListener(button_click);
+        button =(Button)findViewById(R.id.SetLimit2);
+        button.setOnClickListener(button_click);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -270,7 +295,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.button:
+                case R.id.Config:
                     // Intent serverIntent = new Intent(MainActivity.this,DeviceListActivity.class);
                     // startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
                     Intent bluetooth = new Intent();
@@ -292,6 +317,12 @@ public class MainActivity extends FragmentActivity {
                         send[1] = 0;
                     }
                     mBluetoothService.write(send);
+                    break;
+                case R.id.SaveDate:
+                    break;
+                case R.id.SetLimit1:
+                    break;
+                case R.id.SetLimit2:
                     break;
                 default:
                     break;
