@@ -4,16 +4,18 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class MainActivity extends FragmentActivity {
     private List<String> list = new ArrayList<String>();
 
     byte[] send = {(byte)0xAA,1,100,(byte)128,(byte)0xBB};
+    private static int currentMode = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,33 @@ public class MainActivity extends FragmentActivity {
         modeArrayAdapter.add("Mode 2");
         modeArrayAdapter.add("Mode 3");
         modeArrayAdapter.add("Breath");
+        spinner.setOnItemSelectedListener (new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int pos, long id) {
+                String currentModeString = null;
+                switch(pos) {
+                    case 0:
+                        currentMode = 0;
+                        currentModeString = "Mode 1";break;
+                    case 1:
+                        currentMode = 1;
+                        currentModeString = "Mode 2";break;
+                    case 2:
+                        currentMode = 2;
+                        currentModeString = "Mode 3";break;
+                    case 3:
+                        currentMode = 3;
+                        currentModeString = "Breath Mode";break;
+                    default:break;
+                }
+                Toast.makeText(MainActivity.this, "Choose:"+currentModeString, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Another interface callback
+            }
+        });
 
         Button button;
         button =(Button)findViewById(R.id.button);
