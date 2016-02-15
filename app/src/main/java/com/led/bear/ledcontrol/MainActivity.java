@@ -46,8 +46,16 @@ public class MainActivity extends FragmentActivity {
     // color temperature  0x00-0xFF   middle 0x80
     // frame tail 0xBB
 
-    byte[] send = {(byte)0xAA,0x0A,100,(byte)128,(byte)0xBB};
-    private static int currentMode = 1;
+    byte[] send = {
+            Constants.FRAME_HEAD,
+            Constants.CMD_OPEN,
+            Constants.DEFAULT_BRIGHTNESS,
+            Constants.DEFAULT_COLOR_TEMPRATURE,
+            Constants.FRAME_TAIL
+    };
+
+    private static byte currentMode = Constants.CMD_MODE1;
+    private static int currentLedState = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,19 +121,27 @@ public class MainActivity extends FragmentActivity {
                 String currentModeString = null;
                 switch(pos) {
                     case 0:
-                        currentMode = 0;
+                        currentMode = Constants.CMD_MODE1;
                         currentModeString = "Mode 1";break;
                     case 1:
-                        currentMode = 1;
+                        currentMode = Constants.CMD_MODE2;
                         currentModeString = "Mode 2";break;
                     case 2:
-                        currentMode = 2;
+                        currentMode = Constants.CMD_MODE3;
                         currentModeString = "Mode 3";break;
                     case 3:
-                        currentMode = 3;
+                        currentMode = Constants.CMD_BREATH_MODE;
                         currentModeString = "Breath Mode";break;
                     default:break;
                 }
+                send[1] = currentMode;
+                if (mBluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
+                    Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                mBluetoothService.write(send);
+
                 Toast.makeText(MainActivity.this, "Choose:"+currentModeString, Toast.LENGTH_SHORT).show();
             }
             @Override
@@ -159,6 +175,7 @@ public class MainActivity extends FragmentActivity {
                     Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                send[1] = Constants.CMD_DIRECT_CONTROL;
                 send[2] = (byte) seekBar.getProgress();
                 mBluetoothService.write(send);
             }
@@ -181,6 +198,7 @@ public class MainActivity extends FragmentActivity {
                     Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                send[1] = Constants.CMD_DIRECT_CONTROL;
                 send[3] = (byte) seekBar.getProgress();
                 mBluetoothService.write(send);
             }
@@ -309,20 +327,64 @@ public class MainActivity extends FragmentActivity {
                         return;
                     }
                     Button button = (Button) findViewById(R.id.mLEDStateControl);
-                    if(send[1] == 0) {
+                    if(currentLedState == 0) {
                         button.setBackgroundResource(R.mipmap.led_open);
-                        send[1] = 1;
+                        send[1] = Constants.CMD_OPEN;
+                        currentLedState = 1;
                     }else {
                         button.setBackgroundResource(R.mipmap.led_close);
-                        send[1] = 0;
+                        send[1] = Constants.CMD_CLOSE;
+                        currentLedState = 0;
                     }
                     mBluetoothService.write(send);
                     break;
                 case R.id.SaveDate:
+                    if (mBluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
+                        Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    switch(currentMode) {
+                        case Constants.CMD_MODE1:
+                            send[1] = Constants.CMD_MODE1_SAVE;
+                            break;
+                        case Constants.CMD_MODE2:
+                            send[1] = Constants.CMD_MODE2_SAVE;
+                            break;
+                        case Constants.CMD_MODE3:
+                            send[1] = Constants.CMD_MODE3_SAVE;
+                            break;
+                        default:
+                            Toast.makeText(MainActivity.this,
+                                    "just useful in mode 1-3", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    mBluetoothService.write(send);
                     break;
                 case R.id.SetLimit1:
+                    if (mBluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
+                        Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(currentMode != Constants.CMD_BREATH_MODE){
+                        Toast.makeText(MainActivity.this,
+                                "just useful in breath mode", Toast.LENGTH_SHORT).show();
+                    }
+
+                    send[1] = Constants.CMD_BREATH_LIMIT1;
+                    mBluetoothService.write(send);
                     break;
                 case R.id.SetLimit2:
+                    if (mBluetoothService.getState() != BluetoothService.STATE_CONNECTED) {
+                        Toast.makeText(MainActivity.this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(currentMode != Constants.CMD_BREATH_MODE){
+                        Toast.makeText(MainActivity.this,
+                                "just useful in breath mode", Toast.LENGTH_SHORT).show();
+                    }
+
+                    send[1] = Constants.CMD_BREATH_LIMIT2;
+                    mBluetoothService.write(send);
                     break;
                 default:
                     break;

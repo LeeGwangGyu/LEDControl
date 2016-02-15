@@ -16,14 +16,14 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Choose device to connect"
             android:id="@+id/textView"
-            android:layout_above="@+id/button"
+            android:layout_above="@+id/Config"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <Button
             android:layout_width="120dp"
             android:layout_height="50dp"
-            android:id="@+id/button"
+            android:id="@+id/Config"
             android:background="@mipmap/button"
             android:layout_gravity="center_horizontal"
             android:textAllCaps="false"
@@ -37,7 +37,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Set current value to current mode"
             android:id="@+id/textView2"
-            android:layout_above="@+id/button2"
+            android:layout_above="@+id/SaveDate"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -45,12 +45,12 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:text="Save"
-            android:id="@+id/button2"
+            android:id="@+id/SaveDate"
             android:background="@mipmap/button"
             android:textAllCaps="false"
             android:layout_above="@+id/textView3"
-            android:layout_alignLeft="@+id/button"
-            android:layout_alignStart="@+id/button" />
+            android:layout_alignLeft="@+id/Config"
+            android:layout_alignStart="@+id/Config" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Set breathing mode one limit"
             android:id="@+id/textView3"
-            android:layout_above="@+id/button3"
+            android:layout_above="@+id/SetLimit1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -66,12 +66,12 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:text="Set limit"
-            android:id="@+id/button3"
+            android:id="@+id/SetLimit1"
             android:background="@mipmap/button"
             android:textAllCaps="false"
             android:layout_above="@+id/textView4"
-            android:layout_alignLeft="@+id/button2"
-            android:layout_alignStart="@+id/button2" />
+            android:layout_alignLeft="@+id/SaveDate"
+            android:layout_alignStart="@+id/SaveDate" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Set breathing mode other limit"
             android:id="@+id/textView4"
-            android:layout_above="@+id/button4"
+            android:layout_above="@+id/SetLimit2"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -87,12 +87,12 @@
             android:layout_width="120dp"
             android:layout_height="50dp"
             android:text="Set limit"
-            android:id="@+id/button4"
+            android:id="@+id/SetLimit2"
             android:background="@mipmap/button"
             android:textAllCaps="false"
             android:layout_alignParentBottom="true"
-            android:layout_alignLeft="@+id/button3"
-            android:layout_alignStart="@+id/button3" />
+            android:layout_alignLeft="@+id/SetLimit1"
+            android:layout_alignStart="@+id/SetLimit1" />
 
     </RelativeLayout>
 
