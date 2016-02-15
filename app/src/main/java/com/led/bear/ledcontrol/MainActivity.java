@@ -356,8 +356,10 @@ public class MainActivity extends FragmentActivity {
                         default:
                             Toast.makeText(MainActivity.this,
                                     "just useful in mode 1-3", Toast.LENGTH_SHORT).show();
-                            break;
+                            return;
                     }
+                    Toast.makeText(MainActivity.this,
+                            "save data to led", Toast.LENGTH_SHORT).show();
                     mBluetoothService.write(send);
                     break;
                 case R.id.SetLimit1:
@@ -368,8 +370,11 @@ public class MainActivity extends FragmentActivity {
                     if(currentMode != Constants.CMD_BREATH_MODE){
                         Toast.makeText(MainActivity.this,
                                 "just useful in breath mode", Toast.LENGTH_SHORT).show();
+                        return;
                     }
 
+                    Toast.makeText(MainActivity.this,
+                            "save data to led", Toast.LENGTH_SHORT).show();
                     send[1] = Constants.CMD_BREATH_LIMIT1;
                     mBluetoothService.write(send);
                     break;
@@ -381,8 +386,10 @@ public class MainActivity extends FragmentActivity {
                     if(currentMode != Constants.CMD_BREATH_MODE){
                         Toast.makeText(MainActivity.this,
                                 "just useful in breath mode", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-
+                    Toast.makeText(MainActivity.this,
+                            "save data to led", Toast.LENGTH_SHORT).show();
                     send[1] = Constants.CMD_BREATH_LIMIT2;
                     mBluetoothService.write(send);
                     break;
