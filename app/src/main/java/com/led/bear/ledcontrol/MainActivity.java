@@ -56,6 +56,7 @@ public class MainActivity extends FragmentActivity {
 
     private static byte currentMode = Constants.CMD_MODE1;
     private static int currentLedState = 1;
+    private static int initBlueState = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +80,10 @@ public class MainActivity extends FragmentActivity {
             // 这里会启动系统的一个Activity
             // 然后也会根据REQUEST_ENABLE_BT在OnActivityResult方法里处理
             startActivityForResult(enableIntent, 0);
-        } else if (mBluetoothService == null) {
+        } else if (mBluetoothService == null && initBlueState == 0) {
             mBluetoothService = new BluetoothService(MainActivity.this,mHandler);
         }
+        initBlueState = 0;
     }
 
     private void init_BT(){
